@@ -1,16 +1,39 @@
 ﻿namespace StackApp
 {
-    internal class Program
+    internal interface ICustomStack<T>
     {
-        static void Main(string[] args)
+        void Push(T item);
+        T Pop();
+        bool IsEmpty();
+    }
+    public class Stack<T> : ICustomStack<T>
+    {
+        private class Node
         {
-            //ICustomStack<int> intStack = new CustomStack<int>();
-            //intStack.Push(1);
-            //intStack.Push(2);
-            //intStack.Push(3);
-            //Console.WriteLine(intStack.Pop()); // Output: 3
-            //Console.WriteLine(intStack.Pop()); // Output: 2
-            //Console.WriteLine(intStack.IsEmpty()); // Output: False
+            public T Data { get; set; }
+            public Node Next { get; set; }
+            public Node(T data)
+            {
+                Data = data;
+                Next = null;
+            }
+        }
+        private Node top;
+        public void Push(T item)
+        {
+            Node newNode = new Node(item);
+            newNode.Next = top;
+            top = newNode;
+        }
+        public T Pop()
+        {
+            T data = top.Data;
+            top = top.Next;
+            return data;
+        }
+        public bool IsEmpty()
+        {
+            return top == null;
         }
     }
 }
